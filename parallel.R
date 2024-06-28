@@ -26,9 +26,17 @@ for (i in 1:3) {
   }
 }
 
-# stop loop
+  # stop bayes_reg function looping
+  summary(bayes_reg, digits = 5) %>% print()
 
+  coefficients_by[i] <- data.table(bayes_reg$coefficients)
+  predictions_by[i] <- data.table(predict(bayes_reg, newdata = tasas2 %>%
+                                          filter(gedad == unique(tasas$gedad)[i])))
+  #print(coefficients_by)
+}
 
+stopCluster(cl)
+toc()
 
 
 
