@@ -18,8 +18,8 @@ for (i in 1:3) {
   # parallel loop to fit stan_glm models
   bayes_reg <- foreach(i = 1:1, .combine = "c") %dopar% {
 
-    stan_glm(as.formula(paste("employment", "~anio")),
-             data = tasas %>% filter(gedad == unique(tasas$gedad)[1]),
+    stan_glm(as.formula(paste("test", "~object")),
+             data = data %>% filter(gedad == unique(data$gedad)[1]),
              chain = 50,
              # prior = normal(normal_reg$coefficients[2], summary(normal_reg)$coefficients[4]),
              refresh = 0
@@ -30,8 +30,8 @@ for (i in 1:3) {
   summary(bayes_reg, digits = 5) %>% print()
 
   coefficients_by[i] <- data.table(bayes_reg$coefficients)
-  predictions_by[i] <- data.table(predict(bayes_reg, newdata = tasas2 %>%
-                                          filter(gedad == unique(tasas$gedad)[i])))
+  predictions_by[i] <- data.table(predict(bayes_reg, newdata = data2 %>%
+                                          filter(gedad == unique(data$gedad)[i])))
   #print(coefficients_by)
 }
 
